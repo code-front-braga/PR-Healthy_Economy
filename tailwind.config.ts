@@ -25,6 +25,7 @@ export default {
 				mobile360px: '360px',
 				mobile414px: '414px',
 				mobile480px: '480px',
+				mobile560px: '560px',
 				mobile600px: '600px',
 				mobile640px: '640px',
 			},
