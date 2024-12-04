@@ -9,7 +9,7 @@ export default function RootLayout({
 	return (
 		<html lang="pt-br">
 			<body
-				className={`min-h-svh w-full antialiased ${alumni.className} ${loveYLSister.className} ${lovedBKing.className}`}
+				className={`relative flex min-h-svh w-full antialiased ${alumni.className} ${loveYLSister.className} ${lovedBKing.className}`}
 			>
 				{children}
 			</body>
