@@ -1,9 +1,46 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
+import { useForm } from 'react-hook-form';
 
 import { FaUser } from 'react-icons/fa6';
 import { RiLockPasswordLine } from 'react-icons/ri';
+import { z } from 'zod';
+
+const SignupFormSchema = z.object({
+	userName: z
+		.string()
+		.min(2, { message: 'O usuário deve conter, pelo menos, 2 dígitos' })
+		.trim(),
+	password: z
+		.string()
+		.min(8, { message: 'A senha deve conter, pelo menos, 8 dígitos' })
+		.regex(/[a-zA-Z]/, { message: 'Deve conter, pelo menos, uma letra' })
+		.regex(/[0-9]/, { message: 'Deve conter, pelo menos, um número' })
+		.regex(/[^a-zA-Z0-9]/, {
+			message: 'Deve conter, pelo menos, um caractere especial',
+		})
+		.trim(),
+});
+
+type InputForm = z.infer<typeof SignupFormSchema>;
 
 export default function Login() {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		// reset,
+	} = useForm<InputForm>({
+		resolver: zodResolver(SignupFormSchema),
+		mode: 'onChange',
+	});
+
+	const handleForm = () => {
+		alert('ok')
+	};
+
 	return (
 		<>
 			<div
@@ -46,6 +83,7 @@ export default function Login() {
 				</h2>
 
 				<form
+					onSubmit={handleSubmit(handleForm)}
 					className={clsx(
 						'flex flex-col gap-14 rounded-[1.6rem] bg-blackPearl bg-opacity-[92%] p-[1.6rem]',
 						'mobile414px:gap-20',
@@ -54,6 +92,7 @@ export default function Login() {
 					<div className={clsx('flex flex-col gap-8', 'mobile414px:gap-12')}>
 						<div className="relative flex w-full">
 							<input
+								{...register('userName')}
 								type="text"
 								placeholder="usuário"
 								className={clsx(
@@ -61,6 +100,11 @@ export default function Login() {
 									'mobile414px:text-[1.8rem]',
 								)}
 							/>
+							{errors.userName && (
+								<span className="font-alumni absolute left-0 top-full mt-1 text-xl text-safetyOrange">
+									{errors.userName.message}
+								</span>
+							)}
 							<FaUser
 								size={16}
 								className="absolute right-2 top-1/2 -translate-y-1/2 text-greenSpring"
@@ -69,6 +113,7 @@ export default function Login() {
 
 						<div className="relative flex w-full">
 							<input
+								{...register('password')}
 								type="password"
 								placeholder="senha"
 								className={clsx(
@@ -76,6 +121,11 @@ export default function Login() {
 									'mobile414px:text-[1.8rem]',
 								)}
 							/>
+							{errors.password && (
+								<span className="font-alumni absolute left-0 top-full mt-1 text-xl text-safetyOrange">
+									{errors.password.message}
+								</span>
+							)}
 							<RiLockPasswordLine
 								size={16}
 								className="absolute right-2 top-1/2 -translate-y-1/2 text-greenSpring"
