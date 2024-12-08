@@ -28,5 +28,8 @@ export default {
 			},
 		},
 	},
+	safelist: [
+		'list-image-[url(/check.svg)]', // Adicione isso se o PurgeCSS estiver removendo sua classe arbitrária
+	],
 	plugins: [],
 } satisfies Config;
